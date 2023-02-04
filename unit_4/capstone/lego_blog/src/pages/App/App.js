@@ -6,11 +6,10 @@ import HomePage from '../HomePage/HomePage'
 import PostPage from '../PostPage/PostPage'
 import NewPostPage from '../NewPostPage/NewPostPage'
 import { Routes, Route, useParams} from 'react-router-dom'
-import {getUser} from '../../utilities/users-service'
 
 function App() {
   const [state, setState] = useState(null)
-  const [user, setUser ] = useState(getUser)
+  const [user, setUser ] = useState(null)
 
   const fetchState = async () => {
     try {
