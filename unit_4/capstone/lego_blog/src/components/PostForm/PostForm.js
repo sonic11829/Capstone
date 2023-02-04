@@ -1,17 +1,21 @@
+import styles from "./PostForm.module.scss"
 import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 export default function PostForm (props) {
-    const [user, setUser ] = useState(null)
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState(null)
+    const [showPost, setShowPost] = useState(false)
     const [foundPost, setFoundPost] = useState(null)
+    const inputRef = useRef(null)
     const [newPost, setNewPost] = useState({
         postTitle: ''
     })
+    const {id} = useParams()
     // index
     const getPosts = async () => {
         try {
-            const response = await fetch('/api/posts')
+            console.log("getting posts")
+            const response = await fetch('/api/posts/' + id)
             const data = await response.json()
             setPosts(data)
         } catch (error) {
@@ -49,55 +53,38 @@ export default function PostForm (props) {
             console.error(error)
         }
     }
-    // create
-        const createPost = async () => {
-            try {
-                const response = await fetch(`/api/posts`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({...newPost})
-                })
-                const data = await response.json()
-                setFoundPost(data)
-                setNewPost({
-                    postTitle: ''
-                })
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-    const handleChange = (evt) => {
-        setNewPost({...newPost, [evt.target.name]: evt.target.value})
-    }
 
     useEffect(()=> {
         getPosts()
-    }, [foundPost])
+    }, [])
 
-    const {id} = useParams()
     return (
-        <>
+        <>   
             {
-                
-                    
-                        posts.map((post) => {
-                            return (
-                                <>
-                                <h2>{post.postTitle}</h2>
-                                <br/><button onClick={() => deletePost(post._id)}>Delete Post</button>
-                                </>
-                            )
-                        })
-                    
-                
+            posts ? 
+            <div className={styles.wrapper}>
+                <h2>{posts.postTitle}</h2>
+                <input
+                    ref={inputRef}
+                    style={{ display: showPost ? 'block' : 'none' }}
+                    type='text'
+                    name="postTitle"
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                        const postTitle = inputRef.current.value
+                        updatePost(posts._id, { postTitle })
+                        setShowPost(false)
+                        }
+                    }}
+                    defaultValue={posts.postTitle}
+                />
+                <div className={styles.buttons}>
+                <button onClick={() => setShowPost(!showPost)}>Edit</button>
+                <button onClick={() => deletePost(posts._id)}>Delete Post</button>
+                </div>
+            </div>
+            : ""
             }
-            
-
         </>
     )
 }
-
-// <key={id}>{post.postTitle}</>

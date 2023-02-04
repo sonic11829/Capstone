@@ -1,0 +1,33 @@
+.wrapper {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid grey;
+    border-width: 3px;
+    border-radius: 25px;
+    background-color: yellow;
+    width: 50%;
+}
+
+li {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+    text-decoration: none;
+    :hover {
+        cursor: pointer;
+    }
+}
+
+a:link {
+    text-decoration: none;
+    color: aqua;
+}
+
+a:visited {
+    color: blue;
+}
+

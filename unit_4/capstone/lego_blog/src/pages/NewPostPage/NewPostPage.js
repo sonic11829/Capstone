@@ -1,8 +1,9 @@
+import styles from './NewPostPage.module.scss'
 import NewPostForm from "../../components/NewPostForm/NewPostForm"
 
 export default function NewPostPage(props) {
     return(
-        <main>
+        <main className={styles.main}>
             <NewPostForm />
         </main>
     )

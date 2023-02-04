@@ -1,3 +1,4 @@
+import styles from "./NewPostForm.module.scss"
 import { useState, useEffect } from 'react'
 
 export default function NewPostForm (props) {
@@ -6,6 +7,7 @@ export default function NewPostForm (props) {
     const [newPost, setNewPost] = useState({
         postTitle: ''
     })
+
     // index
     const getPosts = async () => {
         try {
@@ -45,10 +47,10 @@ export default function NewPostForm (props) {
     }, [foundPost])
 
     return (
-        <>
-            <h2>Create A Post!</h2>
-            {'Title '}<input value={newPost.postTitle} onChange={handleChange} name="postTitle"></input><br/>
+        <div className={styles.wrapper}>
+            <h2 className={styles.title}>Create A Post!</h2>
+            {'Title '}<input className={styles.input} value={newPost.postTitle} onChange={handleChange} name="postTitle"></input><br/>
                 <button onClick={() => createPost() }>Create Post</button>
-        </>
+        </div>
     )
 }

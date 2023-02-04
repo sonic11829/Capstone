@@ -21,7 +21,6 @@ app.use(require('./config/checkToken'))
 
 app.use('/api/users', require('./routes/api/users'))
 app.use('/api/posts', require('./routes/api/posts'))
-app.use('/api/comments', require('./routes/api/comments'))
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))

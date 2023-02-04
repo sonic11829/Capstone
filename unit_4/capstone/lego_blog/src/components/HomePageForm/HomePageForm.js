@@ -1,5 +1,6 @@
+import styles from './HomePageForm.module.scss'
 import { useState, useEffect} from 'react'
-import {useParams, Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function HomePageForm (props) {
     const [posts, setPosts] = useState([])
@@ -17,25 +18,6 @@ export default function HomePageForm (props) {
             console.error(error)
         }
     }
-    // create
-    const createPost = async () => {
-        try {
-            const response = await fetch(`/api/posts`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({...newPost})
-            })
-            const data = await response.json()
-            setFoundPost(data)
-            setNewPost({
-                postTitle: ''
-            })
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
     const handleChange = (evt) => {
         setNewPost({...newPost, [evt.target.name]: evt.target.value})
@@ -45,23 +27,21 @@ export default function HomePageForm (props) {
         getPosts()
     }, [foundPost])
 
-    const {id} = useParams()
-
     return (
-        <>
+        <div className={styles.wrapper}>
             {
                 posts && posts.length ? (<ul>
                     {
                         posts.map((post) => {
                             return (
-                                <li key={id}>
-                                    <Link to="/post/:id" key={id}>{post.postTitle}</Link>
+                                <li>
+                                    <Link to={`/posts/${post._id}`}><h1>{post.postTitle}</h1></Link>
                                 </li>
                             )
                         })
                     }
                 </ul>): <h1>No Posts have been created yet, Be the First!</h1>
             }
-        </>
+        </div>
     )
 }
